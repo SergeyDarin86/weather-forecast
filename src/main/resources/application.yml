@@ -1,0 +1,19 @@
+cities-settings:
+  cities:
+    - name: Kazan,ru
+    - name: Tolyatti,ru
+    - name: Ottava,can
+
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/weather_forecast
+    username: postgres
+    password: 16s11w86d
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+cron:
+  saveMeasurements: "0 * * * * *"
