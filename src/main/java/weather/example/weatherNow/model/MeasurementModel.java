@@ -2,7 +2,7 @@ package weather.example.weatherNow.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "measurement")
@@ -14,7 +14,7 @@ public class MeasurementModel {
     private Integer measurementId;
 
     @Column(name = "measurement_date")
-    private LocalDateTime measurementDate;
+    private ZonedDateTime measurementDate;
 
     @Column(name = "temperature")
     private Double temperature;
@@ -27,7 +27,7 @@ public class MeasurementModel {
     public MeasurementModel() {
     }
 
-    public MeasurementModel(LocalDateTime measurementDate, Double temperature, CityModel cityModel) {
+    public MeasurementModel(ZonedDateTime measurementDate, Double temperature, CityModel cityModel) {
         this.measurementDate = measurementDate;
         this.temperature = temperature;
         this.cityModel = cityModel;
@@ -41,11 +41,11 @@ public class MeasurementModel {
         this.measurementId = measurementId;
     }
 
-    public LocalDateTime getMeasurementDate() {
+    public ZonedDateTime getMeasurementDate() {
         return measurementDate;
     }
 
-    public void setMeasurementDate(LocalDateTime measurementDate) {
+    public void setMeasurementDate(ZonedDateTime measurementDate) {
         this.measurementDate = measurementDate;
     }
 

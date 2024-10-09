@@ -1,20 +1,20 @@
 package weather.example.weatherNow.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import weather.example.weatherNow.config.CitiesList;
-import weather.example.weatherNow.config.City;
+import weather.example.weatherNow.dto.DateSearchDTO;
 import weather.example.weatherNow.dto.StatisticDTO;
 import weather.example.weatherNow.service.WeatherServiceNew;
+import weather.example.weatherNow.util.DateDTOValidator;
+import weather.example.weatherNow.util.ExceptionBuilder;
 import weather.example.weatherNow.util.WeatherErrorResponse;
-import weather.example.weatherNow.util.WeatherNotFoundException;
+import weather.example.weatherNow.util.WeatherException;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -27,25 +27,47 @@ public class Controller {
 //        return ResponseEntity.ok(service.getAllCities());
 //    }
 
-    @Autowired
     private WeatherServiceNew weatherService;
 
-    @GetMapping("/city")
-    public String getSingleCityWithWeather() {
-        weatherService.saveCitiesNew();
+    @Autowired
+    public Controller(WeatherServiceNew weatherService, DateDTOValidator dateDTOValidator) {
+        this.weatherService = weatherService;
+        this.dateDTOValidator = dateDTOValidator;
+    }
+
+    @PostMapping("/newCities")
+    public String saveCities() {
+        weatherService.saveCities();
         return "";
     }
 
+    @GetMapping("/newMeasurements")
+    public void saveMeasurements(){
+        weatherService.saveMeasurements();
+    }
 //    @GetMapping("/statistics")
 //    public List<StatisticDTO> getStatistics() {
 //        return weatherService.getStatisticsForEveryCity();
 //    }
 
+//    @GetMapping("/statistics")
+//    public List<StatisticDTO> getStatistics(
+//            @RequestParam(value = "dateFrom")String dateFrom,
+//            @RequestParam(value = "dateTo")String dateTo) {
+//
+//        return weatherService.getStatisticsForEveryCityBetweenDates(dateFrom,dateTo);
+//    }
+
+    private DateDTOValidator dateDTOValidator;
+
     @GetMapping("/statistics")
-    public List<StatisticDTO> getStatistics(
-            @RequestParam(value = "dateFrom") String dateFrom,
-            @RequestParam(value = "dateTo") String dateTo) {
-        return weatherService.getStatisticsForEveryCityBetweenDates(dateFrom,dateTo);
+    public List<StatisticDTO> getStatisticsWithDTO(
+            @RequestBody @Valid DateSearchDTO dateDTO, BindingResult bindingResult) {
+
+        dateDTOValidator.validate(dateDTO,bindingResult);
+        ExceptionBuilder.buildErrorMessageForClient(bindingResult);
+
+        return weatherService.getStatisticsForEveryCityBetweenDates(dateDTO.getDateFrom(), dateDTO.getDateTo());
     }
 
     @DeleteMapping("/delete")
@@ -54,9 +76,9 @@ public class Controller {
     }
 
     @ExceptionHandler
-    private ResponseEntity<WeatherErrorResponse> handlerException(WeatherNotFoundException e) {
+    private ResponseEntity<WeatherErrorResponse> handlerException(WeatherException e) {
         WeatherErrorResponse response = new WeatherErrorResponse(
-                "Weather for City not found",
+                e.getMessage(),
                 System.currentTimeMillis()
         );
         // В HTTP ответе будет тело ответа (response) и статус в заголовке http-ответа
