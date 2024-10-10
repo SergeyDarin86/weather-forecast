@@ -34,4 +34,12 @@ public class DateSearchDTO {
     public void setDateTo(String dateTo) {
         this.dateTo = dateTo;
     }
+
+    @Override
+    public String toString() {
+        return "DateSearchDTO{" +
+                "dateFrom='" + dateFrom + '\'' +
+                ", dateTo='" + dateTo + '\'' +
+                '}';
+    }
 }

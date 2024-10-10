@@ -1,8 +1,9 @@
 cities-settings:
   cities:
-    - name: Kazan,ru
-    - name: Tolyatti,ru
-    - name: Ottava,can
+    - name: Kazan
+    - name: Tolyatti
+    - name: Ottava
+    - name: Sydney
 
 spring:
   datasource:
@@ -14,6 +15,14 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    weather.example.weatherNow: info
+    org:
+      springframework: ${LOG:info}
+  file:
+    name: logs/log
 
 cron:
   saveMeasurements: "0 * * * * *"
