@@ -26,3 +26,6 @@ logging:
 
 cron:
   saveMeasurements: "0 * * * * *"
+
+appId: 17f981443364cc861d066e1422c05746
+units: metric

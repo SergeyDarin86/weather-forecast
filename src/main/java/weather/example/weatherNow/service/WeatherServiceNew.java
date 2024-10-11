@@ -2,6 +2,7 @@ package weather.example.weatherNow.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,11 @@ import java.util.Optional;
 // - 4) запуск на docker
 // - 5) swagger-документация
 // - 6) README.md
-// - 7) вынести appId - в отдельный параметр
+// + 7) вынести appId - в отдельный параметр
 // +- 8) добавить логирование в проект
+// 9) проверить, как будет вести себя программа после удаления всех данных из БД (метод delete)
+// 9) возможно будет ошибка, т.к. не будет городов в таблице City
+// 10)
 
 @Slf4j
 @Service
@@ -43,6 +47,19 @@ public class WeatherServiceNew {
 
     private RestTemplate restTemplate;
 
+    @Value("${appId}")
+    private String appId;
+
+    @Value("${units}")
+    private String units;
+
+    public String getUnits() {
+        return units;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
     @Autowired
     public WeatherServiceNew(CityRepository cityRepository, MeasurementRepository measurementRepository, CitiesList citiesList, RestTemplate restTemplate) {
         this.cityRepository = cityRepository;
@@ -71,11 +88,9 @@ public class WeatherServiceNew {
     @Scheduled(cron = "${cron.saveMeasurements}")
     public void saveMeasurements() {
         log.info("Start method saveMeasurements() for weatherService, time is: {} ", LocalDateTime.now());
-        String units = "metric";
-        String appId = "17f981443364cc861d066e1422c05746";
 
         for (City city : citiesList.getCities()) {
-            String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city.getName() + "&units=" + units + "&appid=" + appId;
+            String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city.getName() + "&units=" + getUnits() + "&appid=" + getAppId();
             CityResponse cityResponse = restTemplate.getForObject(url, CityResponse.class);
             MeasurementModel measurementModel = new MeasurementModel(ZonedDateTime.now(),
                     cityResponse.getMain().getTemp(),
