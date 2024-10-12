@@ -29,21 +29,24 @@ public class Controller {
 
     private WeatherServiceNew weatherService;
 
+    private DateDTOValidator dateDTOValidator;
+
     @Autowired
     public Controller(WeatherServiceNew weatherService, DateDTOValidator dateDTOValidator) {
         this.weatherService = weatherService;
         this.dateDTOValidator = dateDTOValidator;
     }
 
-    @PostMapping("/newCities")
-    public String saveCities() {
+    @GetMapping("/newCities")
+    public ResponseEntity saveCities() {
         weatherService.saveCities();
-        return "";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/newMeasurements")
-    public void saveMeasurements(){
+    public ResponseEntity saveMeasurements(){
         weatherService.saveMeasurements();
+        return ResponseEntity.ok().build();
     }
 //    @GetMapping("/statistics")
 //    public List<StatisticDTO> getStatistics() {
@@ -58,21 +61,20 @@ public class Controller {
 //        return weatherService.getStatisticsForEveryCityBetweenDates(dateFrom,dateTo);
 //    }
 
-    private DateDTOValidator dateDTOValidator;
-
     @GetMapping("/statistics")
-    public List<StatisticDTO> getStatisticsWithDTO(
+    public ResponseEntity getStatisticsWithDTO(
             @RequestBody @Valid DateSearchDTO dateDTO, BindingResult bindingResult) {
 
         dateDTOValidator.validate(dateDTO,bindingResult);
         ExceptionBuilder.buildErrorMessageForClient(bindingResult);
 
-        return weatherService.getStatisticsForEveryCityBetweenDates(dateDTO.getDateFrom(), dateDTO.getDateTo());
+        return ResponseEntity.ok(weatherService.getStatisticsForEveryCityBetweenDates(dateDTO.getDateFrom(), dateDTO.getDateTo()));
     }
 
     @DeleteMapping("/delete")
-    public void deleteAllMeasurements(){
+    public ResponseEntity deleteAllMeasurements(){
         weatherService.deleteAllMeasurementsWithCities();
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler

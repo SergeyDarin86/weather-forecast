@@ -29,9 +29,10 @@ import java.util.Optional;
 // - 5) swagger-документация
 // - 6) README.md
 // + 7) вынести appId - в отдельный параметр
-// +- 8) добавить логирование в проект
+// + 8) добавить логирование в проект
 // 9) проверить, как будет вести себя программа после удаления всех данных из БД (метод delete)
 // 9) возможно будет ошибка, т.к. не будет городов в таблице City
+// 10) Сделать класс Response для списка средних температур
 // 10)
 
 @Slf4j
@@ -39,13 +40,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class WeatherServiceNew {
 
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
-    private MeasurementRepository measurementRepository;
+    private final MeasurementRepository measurementRepository;
 
-    private CitiesList citiesList;
+    private final CitiesList citiesList;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Value("${appId}")
     private String appId;
