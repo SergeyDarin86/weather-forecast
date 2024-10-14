@@ -32,13 +32,13 @@ import java.util.Optional;
 // + 8) добавить логирование в проект
 // 9) проверить, как будет вести себя программа после удаления всех данных из БД (метод delete)
 // 9) возможно будет ошибка, т.к. не будет городов в таблице City
-// 10) Сделать класс Response для списка средних температур
+// 10) ??? Сделать класс Response для списка средних температур ???
 // 10)
 
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class WeatherServiceNew {
+public class WeatherService {
 
     private final CityRepository cityRepository;
 
@@ -62,7 +62,7 @@ public class WeatherServiceNew {
         return appId;
     }
     @Autowired
-    public WeatherServiceNew(CityRepository cityRepository, MeasurementRepository measurementRepository, CitiesList citiesList, RestTemplate restTemplate) {
+    public WeatherService(CityRepository cityRepository, MeasurementRepository measurementRepository, CitiesList citiesList, RestTemplate restTemplate) {
         this.cityRepository = cityRepository;
         this.measurementRepository = measurementRepository;
         this.citiesList = citiesList;
@@ -100,10 +100,6 @@ public class WeatherServiceNew {
             measurementRepository.save(measurementModel);
         }
     }
-
-    // на данный момент вывожу статистику для ВСЕХ городов, которые лежат в базе
-    // даже если он не указан в конфигурационном файле
-    //TODO: можно также прогонять через for-each SitesList и находить по siteName
 
     public List<StatisticDTO> getStatisticsForEveryCityBetweenDates(String dateFromStr, String dateToStr) {
         log.info("Start method getStatisticsForEveryCityBetweenDates(dateFromStr, dateToStr) for weatherService, dateFromStr is: {}, dateToStr is : {} ", dateFromStr, dateToStr);
