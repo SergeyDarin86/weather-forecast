@@ -17,14 +17,14 @@
 - получите ключ для получения данных о погоде, скопируйте его и вставьте в настраиваемый параметр, который указан в конфигурационном файле <b>application.yaml</b>. Данный файл находится в корне проекта.
 
 <h2 align="center">
-  <img src="img/appId_example.png" alt="drawing" width="800"/>
+  <img src="img/appId-example.png" alt="drawing" width="800"/>
 </h2>
 
 - укажите города, для которых вы хотите собирать данные о погоде. (эти параметры также находятся в файле <b>application.yaml</b>).
 Названия городов указываются только английскими буквами в соответствии с международными стандартами.
 
 <h2 align="center">
-  <img src="img/cities_example.png" alt="drawing" width="800"/>
+  <img src="img/cities-example.png" alt="drawing" width="800"/>
 </h2>
 
 <b>Для запуска приложения необходимо:</b>
