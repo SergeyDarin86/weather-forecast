@@ -17,14 +17,14 @@
 - получите ключ для получения данных о погоде, скопируйте его и вставьте в настраиваемый параметр, который указан в конфигурационном файле <b>application.yaml</b>. Данный файл находится в корне проекта.
 
 <h2 align="center">
-  <img src="img/appId-example.png" alt="drawing" width="800"/>
+  <img src="img/appId-example.png" alt="drawing" width="600"/>
 </h2>
 
 - укажите города, для которых вы хотите собирать данные о погоде. (эти параметры также находятся в файле <b>application.yaml</b>).
 Названия городов указываются только английскими буквами в соответствии с международными стандартами.
 
 <h2 align="center">
-  <img src="img/cities-example.png" alt="drawing" width="800"/>
+  <img src="img/cities-example.png" alt="drawing" width="600"/>
 </h2>
 
 <b>Для запуска приложения необходимо:</b>
@@ -57,26 +57,26 @@
 8. Отправляем запрос на выполнение с помощью кнопки <b>"Send"</b>. (Смотри рисунок ниже)
 
 <h2 align="center">
-  <img src="img/send_statistics_request.png" alt="drawing" width="800"/>
+  <img src="img/send_statistics_request.png" alt="drawing" width="700"/>
 </h2>
 
-После отправки запроса мы получим ответ также в формате <b>"ключ - значение"</b>. Данные будут отсортированы по убыванию от максимального значения вхождения символа до минимального (Смотри рисунок ниже).
+После отправки запроса мы получим ответ также в формате <b>"ключ - значение"</b>. (Смотри рисунок ниже).
 
 <h2 align="center">
-  <img src="img/get_statistics_response.png" alt="drawing" width="800"/>
+  <img src="img/get_statistics_response.png" alt="drawing" width="700"/>
 </h2>
 
 В случае некорректного ввода данных предусмотрены ошибки:
 - неверный формат:
  
 <h2 align="center">
-  <img src="img/wrong_format.png" alt="drawing" width="800"/>
+  <img src="img/wrong_format.png" alt="drawing" width="700"/>
 </h2>
 
 - пустое поле для даты:
 
 <h2 align="center">
-  <img src="img/wrong_length.png" alt="drawing" width="800"/>
+  <img src="img/wrong_length.png" alt="drawing" width="700"/>
 </h2>
   
 

@@ -63,7 +63,7 @@ public class Controller {
                 e.getMessage(),
                 System.currentTimeMillis()
         );
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }
