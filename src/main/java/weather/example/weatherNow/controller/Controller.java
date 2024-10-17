@@ -2,7 +2,6 @@ package weather.example.weatherNow.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,15 +19,9 @@ import weather.example.weatherNow.util.WeatherException;
 @RequiredArgsConstructor
 public class Controller implements MeasurementResource {
 
-    private WeatherService weatherService;
+    private final WeatherService weatherService;
 
-    private DateDTOValidator dateDTOValidator;
-
-    @Autowired
-    public Controller(WeatherService weatherService, DateDTOValidator dateDTOValidator) {
-        this.weatherService = weatherService;
-        this.dateDTOValidator = dateDTOValidator;
-    }
+    private final DateDTOValidator dateDTOValidator;
 
     @GetMapping("/newCities")
     public ResponseEntity saveCities() {
