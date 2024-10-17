@@ -21,20 +21,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-//TODO:
-// +- 1) добавить ограничения на формат вводимых дат при формировании статистики
-// + 2) добавить перехватываемые исключения и сообщения об ошибках
-// - 3) тестирование (интеграционное/unit)
-// - 4) запуск на docker
-// - 5) swagger-документация
-// - 6) README.md
-// + 7) вынести appId - в отдельный параметр
-// + 8) добавить логирование в проект
-// 9) проверить, как будет вести себя программа после удаления всех данных из БД (метод delete)
-// 9) возможно будет ошибка, т.к. не будет городов в таблице City
-// 10) ??? Сделать класс Response для списка средних температур ???
-// 10)
-
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -61,6 +47,7 @@ public class WeatherService {
     public String getAppId() {
         return appId;
     }
+
     @Autowired
     public WeatherService(CityRepository cityRepository, MeasurementRepository measurementRepository, CitiesList citiesList, RestTemplate restTemplate) {
         this.cityRepository = cityRepository;
@@ -105,11 +92,11 @@ public class WeatherService {
         log.info("Start method getStatisticsForEveryCityBetweenDates(dateFromStr, dateToStr) for weatherService, dateFromStr is: {}, dateToStr is : {} ", dateFromStr, dateToStr);
         ZonedDateTime dateFrom = ZonedDateTime.parse(dateFromStr);
         ZonedDateTime dateTo = ZonedDateTime.parse(dateToStr);
-        return measurementRepository.findAverageTemperatureByCityModelWithDates(dateFrom,dateTo);
+        return measurementRepository.findAverageTemperatureByCityModelWithDates(dateFrom, dateTo);
     }
 
     @Transactional
-    public void deleteAllMeasurementsWithCities(){
+    public void deleteAllMeasurementsWithCities() {
         log.info("Start method deleteAllMeasurementsWithCities() for weatherService, time is: {} ", LocalDateTime.now());
         measurementRepository.deleteAll();
         cityRepository.deleteAll();

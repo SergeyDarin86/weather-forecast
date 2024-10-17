@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import weather.example.weatherNow.dto.DateSearchDTO;
+import weather.example.weatherNow.resource.MeasurementResource;
 import weather.example.weatherNow.service.WeatherService;
 import weather.example.weatherNow.util.DateDTOValidator;
 import weather.example.weatherNow.util.ExceptionBuilder;
@@ -17,7 +18,7 @@ import weather.example.weatherNow.util.WeatherException;
 @RestController
 @RequestMapping("/weather")
 @RequiredArgsConstructor
-public class Controller {
+public class Controller implements MeasurementResource {
 
     private WeatherService weatherService;
 
@@ -41,14 +42,13 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/statistics")
+    @PostMapping("/statistics")
     public ResponseEntity getStatisticsWithDTO(
-            @RequestBody @Valid DateSearchDTO dateDTO, BindingResult bindingResult) {
-
-        dateDTOValidator.validate(dateDTO, bindingResult);
+            @RequestBody @Valid DateSearchDTO dateSearchDTO, BindingResult bindingResult) {
+        dateDTOValidator.validate(dateSearchDTO, bindingResult);
         ExceptionBuilder.buildErrorMessageForClient(bindingResult);
 
-        return ResponseEntity.ok(weatherService.getStatisticsForEveryCityBetweenDates(dateDTO.getDateFrom(), dateDTO.getDateTo()));
+        return ResponseEntity.ok(weatherService.getStatisticsForEveryCityBetweenDates(dateSearchDTO.getDateFrom(), dateSearchDTO.getDateTo()));
     }
 
     @DeleteMapping("/delete")

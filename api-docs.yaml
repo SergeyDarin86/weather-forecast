@@ -1,0 +1,174 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Руководство использования сервиса API",
+    "description": "Сервис предназначен для: \n- сбора данных о погоде для произвольных городов; \n- вывода средней температуры за определенный период для каждого города;  \n- удаления всех измерений.",
+    "contact": {
+      "name": "Sergey Darin",
+      "email": "swd86@mail.ru"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Server URL in Development environment"
+    }
+  ],
+  "paths": {
+    "/weather/statistics": {
+      "post": {
+        "tags": [
+          "API сервиса погоды"
+        ],
+        "summary": "Получение средней температуры за указанный период для каждого города.",
+        "description": "Необходимо ввести диапазон дат в необходимом формате ISO 8601.",
+        "operationId": "getStatisticsWithDTO",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DateSearchDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Метод успешно выполнен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StatisticDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/weather/newMeasurements": {
+      "get": {
+        "tags": [
+          "API сервиса погоды"
+        ],
+        "summary": "Сохранение данных о погоде.",
+        "description": "Данный метод выполняется автоматически каждую минутуи собирает данные о погоде для городов, указанных в конфигурационном файле.",
+        "operationId": "saveMeasurements",
+        "responses": {
+          "200": {
+            "description": "Метод успешно выполнен.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/weather/newCities": {
+      "get": {
+        "tags": [
+          "API сервиса погоды"
+        ],
+        "summary": "Сохранение новых городов.",
+        "description": "Данный метод выполняется первым автоматически один раз при каждом запуске приложения.",
+        "operationId": "saveCities",
+        "responses": {
+          "200": {
+            "description": "Метод успешно выполнен.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/weather/delete": {
+      "delete": {
+        "tags": [
+          "API сервиса погоды"
+        ],
+        "summary": "Удаление всех данных о погоде.",
+        "description": "Удаление всех данных о городах и погоде.",
+        "operationId": "deleteAllMeasurements",
+        "responses": {
+          "200": {
+            "description": "Метод успешно выполнен",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DateSearchDTO": {
+        "required": [
+          "dateFrom",
+          "dateTo"
+        ],
+        "type": "object",
+        "properties": {
+          "dateFrom": {
+            "pattern": "^[0-9]{4}-[0-1][0-9]-[0-9]{2}T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]Z$",
+            "type": "string",
+            "description": "Нижняя граница диапазона даты в формате ISO 8601",
+            "example": "2021-10-20T20:23:23Z"
+          },
+          "dateTo": {
+            "pattern": "^[0-9]{4}-[0-1][0-9]-[0-9]{2}T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]Z$",
+            "type": "string",
+            "description": "Верхняя граница диапазона даты в формате ISO 8601",
+            "example": "2024-03-10T20:23:23Z"
+          }
+        },
+        "description": "DTO для поиска по диапазону дат"
+      },
+      "StatisticDTO": {
+        "type": "object",
+        "properties": {
+          "cityName": {
+            "type": "string",
+            "description": "Название города",
+            "example": "Moscow"
+          },
+          "avgTemperature": {
+            "type": "number",
+            "description": "Средняя температура за указанный период",
+            "format": "double",
+            "example": 12.3
+          }
+        },
+        "description": "DTO для вывода результатов поиска"
+      }
+    }
+  }
+}

@@ -15,8 +15,7 @@ import weather.example.weatherNow.controller.Controller;
 import weather.example.weatherNow.dto.DateSearchDTO;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,7 +66,7 @@ class WeatherApplicationTest {
     @Test
     void getStatisticsBetweenDates() throws Exception {
         this.mockMvc
-                .perform(get("/weather/statistics")
+                .perform(post("/weather/statistics")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(mapper.writeValueAsString(searchDTO)))
                 .andDo(print())

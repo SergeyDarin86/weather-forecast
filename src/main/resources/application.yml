@@ -29,3 +29,7 @@ cron:
 
 appId: 17f981443364cc861d066e1422c05746
 units: metric
+
+weather:
+  openapi:
+    dev-url: http://localhost:8080
