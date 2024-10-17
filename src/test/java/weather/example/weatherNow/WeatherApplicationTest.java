@@ -79,11 +79,11 @@ class WeatherApplicationTest {
         String wrongDateFormat = "2024-10-14T04:25:03";
         searchDTO.setDateTo(wrongDateFormat);
         this.mockMvc
-                .perform(get("/weather/statistics")
+                .perform(post("/weather/statistics")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(mapper.writeValueAsString(searchDTO)))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

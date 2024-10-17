@@ -1,5 +1,6 @@
 package weather.example.weatherNow.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class WeatherService {
 
     private final CityRepository cityRepository;
@@ -46,14 +48,6 @@ public class WeatherService {
 
     public String getAppId() {
         return appId;
-    }
-
-    @Autowired
-    public WeatherService(CityRepository cityRepository, MeasurementRepository measurementRepository, CitiesList citiesList, RestTemplate restTemplate) {
-        this.cityRepository = cityRepository;
-        this.measurementRepository = measurementRepository;
-        this.citiesList = citiesList;
-        this.restTemplate = restTemplate;
     }
 
     @Transactional
