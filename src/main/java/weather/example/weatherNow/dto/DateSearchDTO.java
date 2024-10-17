@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 @Schema(description = "DTO для поиска по диапазону дат")
 public class DateSearchDTO {
 
-    private static final String ERROR_MSG = "Неверный формат ввода даты. Введите дату в формате: ГГГГ-ММ-ДДTчч:мм:ссZ (2022-12-03T23:12:28Z) ";
+    private static final String ERROR_MSG = "Неверный формат ввода даты. Введите дату в формате: ГГГГ-ММ-ДДTчч:мм:ссZ (2022-12-03T23:12:28Z)";
 
     private static final String REGEX_VALUE = "^[0-9]{4}-[0-1][0-9]-[0-9]{2}T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]Z$";
 

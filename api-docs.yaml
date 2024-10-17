@@ -51,9 +51,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/WeatherErrorResponse"
                 }
               }
             }
@@ -67,7 +67,7 @@
           "API сервиса погоды"
         ],
         "summary": "Сохранение данных о погоде.",
-        "description": "Данный метод выполняется автоматически каждую минутуи собирает данные о погоде для городов, указанных в конфигурационном файле.",
+        "description": "Данный метод выполняется автоматически каждую минуту и собирает данные о погоде для городов, указанных в конфигурационном файле.",
         "operationId": "saveMeasurements",
         "responses": {
           "200": {
@@ -168,6 +168,23 @@
           }
         },
         "description": "DTO для вывода результатов поиска"
+      },
+      "WeatherErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Текст сообщения об ошибке",
+            "example": "Неверный формат ввода даты. Введите дату в формате: ГГГГ-ММ-ДДTчч:мм:ссZ (2022-12-03T23:12:28Z)"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "Временная метка (timestamp)",
+            "format": "int64",
+            "example": 1729178966070
+          }
+        },
+        "description": "Класс, возвращающий текст ошибки пользователю в случае некорректно введенных данных"
       }
     }
   }

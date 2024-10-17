@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import weather.example.weatherNow.dto.DateSearchDTO;
 import weather.example.weatherNow.dto.StatisticDTO;
+import weather.example.weatherNow.util.WeatherErrorResponse;
 
 @Tag(name = "API сервиса погоды")
 public interface MeasurementResource {
@@ -29,7 +30,7 @@ public interface MeasurementResource {
 
     @Operation(
             summary = "Сохранение данных о погоде.",
-            description = "Данный метод выполняется автоматически каждую минуту" +
+            description = "Данный метод выполняется автоматически каждую минуту " +
                     "и собирает данные о погоде для городов, указанных в конфигурационном файле."
     )
     @ApiResponse(responseCode = "200", description = "Метод успешно выполнен.")
@@ -47,10 +48,16 @@ public interface MeasurementResource {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = StatisticDTO.class)))
+                                    array = @ArraySchema(schema = @Schema(implementation = StatisticDTO.class))
+                            )
                     }
             ),
-            @ApiResponse(responseCode = "400", description = "Bad Request")
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = WeatherErrorResponse.class))
+            )
     })
     @GetMapping()
     ResponseEntity getStatisticsWithDTO(@RequestBody @Valid DateSearchDTO dateSearchDTO, BindingResult bindingResult);
