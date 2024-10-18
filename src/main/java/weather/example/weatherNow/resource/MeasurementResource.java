@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import weather.example.weatherNow.dto.DateSearchDTO;
 import weather.example.weatherNow.dto.StatisticDTO;
 import weather.example.weatherNow.util.WeatherErrorResponse;
@@ -25,7 +23,6 @@ public interface MeasurementResource {
             description = "Данный метод выполняется первым автоматически один раз при каждом запуске приложения."
     )
     @ApiResponse(responseCode = "200", description = "Метод успешно выполнен.")
-    @GetMapping
     ResponseEntity saveCities();
 
     @Operation(
@@ -34,7 +31,6 @@ public interface MeasurementResource {
                     "и собирает данные о погоде для городов, указанных в конфигурационном файле."
     )
     @ApiResponse(responseCode = "200", description = "Метод успешно выполнен.")
-    @GetMapping
     ResponseEntity saveMeasurements();
 
     @Operation(
@@ -59,7 +55,6 @@ public interface MeasurementResource {
                             schema = @Schema(implementation = WeatherErrorResponse.class))
             )
     })
-    @GetMapping()
     ResponseEntity getStatisticsWithDTO(@RequestBody @Valid DateSearchDTO dateSearchDTO, BindingResult bindingResult);
 
     @Operation(
@@ -67,7 +62,6 @@ public interface MeasurementResource {
             description = "Удаление всех данных о городах и погоде."
     )
     @ApiResponse(responseCode = "200", description = "Метод успешно выполнен")
-    @DeleteMapping()
     ResponseEntity deleteAllMeasurements();
 
 }
