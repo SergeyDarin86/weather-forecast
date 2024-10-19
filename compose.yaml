@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  sqldb:
+    image: postgres:13.3
+    restart: unless-stopped
+    networks:
+      - weather-network
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=16s11w86d
+      - POSTGRES_DB=weather_forecast
+    ports:
+      - 5432:5432
+    volumes:
+      - ./initSql:/docker-entrypoint-initdb.d
+  app:
+    depends_on:
+      - sqldb
+    build:
+      context: .
+    networks:
+      - weather-network
+    ports:
+      - 8080:8080
+    environment:
+      - spring.datasource.driver-class-name=org.postgresql.Driver
+      - spring.datasource.url=jdbc:postgresql://sqldb:5432/weather_forecast
+      - spring.datasource.username=postgres
+      - spring.datasource.password=16s11w86d
+      - spring.jpa.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+      - spring.jpa.show-sql=true
+      - spring_jpa_properties_hibernate_boot_allow_jdbc_metadata_access=false
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  weather-network:
+    driver: bridge
