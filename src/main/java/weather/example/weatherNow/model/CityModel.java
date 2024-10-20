@@ -2,6 +2,7 @@ package weather.example.weatherNow.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 
@@ -16,10 +17,9 @@ public class CityModel {
     @Column(name = "city_id")
     private Integer cityId;
 
-    // на данный момент regex для кириллицы
-    @NotEmpty(message = "ФИО обязательно для заполнения")
+    @NotEmpty(message = "Поле обязательно для заполнения")
     @Size(min = 3, max = 50, message = "Название города может содержать от 3 до 50 символов")
-//    @Pattern(regexp = "[A-Z][a-z]+", message = "Название города нужно писать на английском")
+    @Pattern(regexp = "[A-Z][a-z]+", message = "Название города нужно писать на английском")
     @Column(name = "city_name")
     private String cityName;
 
